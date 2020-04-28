@@ -86,11 +86,3 @@ test('Should fetch specific county data', async () => {
     )
 })
 
-
-test('should get subcounty data', async () => {
-    await request(app)
-        .get(
-            '/api/v1/counties/nairobi/subcounties'
-        )
-        .expect(200)
-})
