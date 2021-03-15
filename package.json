@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
+    "build:types": "tsc --declaration",
     "dev": "nodemon public/index.js",
     "start": "node public/index.js",
     "test": "jest --watchAll",
@@ -51,7 +52,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "*": [
       "prettier --write src/**/*",
       "eslint --fix"
     ]
