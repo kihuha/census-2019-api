@@ -16,7 +16,7 @@ router.get("/", (req, res) => {
  * @param object Counties or SubCounties object
  * @returns County or Subcounty
  */
-const getData = (name: string, object: any) => {
+const getSearchString = (name: string) => {
   const county =
     name[0].toUpperCase() + name.slice(1, name.length).toLowerCase()
 
@@ -24,14 +24,14 @@ const getData = (name: string, object: any) => {
     const split = county.split("-")
     const searchString = `${split[0]} ${split[1]}`
 
-    return object[searchString]
+    return searchString
   } else {
-    return object[county]
+    return county
   }
 }
 
 router.get("/:county", (req, res) => {
-  const response = getData(req.params.county, counties) || {
+  const response = counties[getSearchString(req.params.county)] || {
     error: "County not found",
   }
 
@@ -39,7 +39,7 @@ router.get("/:county", (req, res) => {
 })
 
 router.get("/:county/subcounties", (req, res) => {
-  const data = getData(req.params.county, subCounties)
+  const data = subCounties[getSearchString(req.params.county)]
 
   const response = data || { error: "County not found" }
 
@@ -47,8 +47,8 @@ router.get("/:county/subcounties", (req, res) => {
 })
 
 router.get("/:county/subcounties/:subcounty", (req, res) => {
-  const data = getData(req.params.county, subCounties)
-  const result = getData(req.params.subcounty, data)
+  const data = subCounties[getSearchString(req.params.county)]
+  const result = data[getSearchString(req.params.subcounty)]
 
   const response = result || { error: "Sub County not found" }
 
