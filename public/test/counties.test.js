@@ -5,11 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const app_1 = __importDefault(require("../app"));
-test("Should fetch all county data", async () => {
-    const res = await supertest_1.default(app_1.default).get("/api/v1/counties").expect(200);
-    // there are 47 counties in kenya
-    expect(res.body.length).toBe(47);
-});
 test("Should fetch specific county data", async () => {
     // lowercase
     const res = await supertest_1.default(app_1.default).get("/api/v1/counties/nairobi").expect(200);
@@ -17,7 +12,6 @@ test("Should fetch specific county data", async () => {
         male: 2192452,
         female: 2204376,
         intersex: 245,
-        total: 4397073,
         households: 1506888,
         averageHouseholds: 2.9,
         popDensity: {

@@ -8,7 +8,7 @@
     "build:types": "tsc --declaration",
     "dev": "nodemon public/index.js",
     "start": "node public/index.js",
-    "test": "jest --watchAll",
+    "test": "jest",
     "format": "prettier --write src/**/*",
     "lint": "eslint --fix-dry-run src/**/*"
   },
