@@ -15,7 +15,18 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "husky": "=4",
     "jest": "^25.3.0",
+    "lint-staged": ">=10",
+    "prettier": "^2.2.1",
     "supertest": "^4.0.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": "prettier --write src/**/*"
   }
 }
