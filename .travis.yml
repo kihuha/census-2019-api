@@ -1,6 +1,6 @@
 install:
   - npm install
 script:
-  - npm run test --coverage
+  - npm run test -- --coverage
 after_success:
   - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
