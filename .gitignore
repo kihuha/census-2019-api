@@ -116,3 +116,7 @@ dist
 
 # IDE
 .idea
+
+
+# Build
+public/
