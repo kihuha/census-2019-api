@@ -4,18 +4,57 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
-    "test": "jest --watchAll"
+    "build": "tsc",
+    "build:types": "tsc --declaration",
+    "dev": "nodemon public/index.js",
+    "start": "node public/index.js",
+    "test": "jest",
+    "format": "prettier --write src/**/*",
+    "lint": "eslint --fix-dry-run src/**/*"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.+(ts|tsx|js)",
+      "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    }
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "global": "^4.4.0",
+    "jest": "^26.6.3"
   },
   "devDependencies": {
-    "jest": "^25.3.0",
-    "supertest": "^4.0.2"
+    "@types/express": "^4.17.11",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^14.14.34",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.17.0",
+    "@typescript-eslint/parser": "^4.17.0",
+    "eslint": "^7.22.0",
+    "husky": "=4",
+    "lint-staged": ">=10",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.5.3",
+    "typescript": "^4.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*": [
+      "prettier --write src/**/*",
+      "eslint --fix"
+    ]
   }
 }
