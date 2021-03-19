@@ -1,58 +1,46 @@
-// import express from "express"
+import express from "express"
+import { pool } from "../dbconn"
 // import { counties, subCounties } from "../data"
 
-// const router = express.Router()
+const router = express.Router()
 
-// router.get("/", (req, res) => {
-//   res.status(200).json(counties)
-// })
+router.get("/", async (req, res) => {
+  const results: any = await pool.query(
+    "SELECT * FROM counties ORDER BY CAST(county_code AS int) ASC;"
+  )
 
-// /**
-//  * This function takes in either the counties object or
-//  * the subcounties object and returns a single county or subcounty from
-//  * the object passed in
-//  *
-//  * @param name string
-//  * @param object Counties or SubCounties object
-//  * @returns County or Subcounty
-//  */
-// const getSearchString = (name: string) => {
-//   const county =
-//     name[0].toUpperCase() + name.slice(1, name.length).toLowerCase()
+  return res.status(200).send(results.rows)
+})
 
-//   if (county.split("-").length > 1) {
-//     const split = county.split("-")
-//     const searchString = `${split[0]} ${split[1]}`
+router.get("/:county", async (req, res) => {
+  const results = await pool.query("SELECT * FROM counties WHERE county_search_string=$1;", [
+    req.params.county.toUpperCase(),
+  ])
+  return res.status(200).json(results.rows[0])
+})
 
-//     return searchString
-//   } else {
-//     return county
-//   }
-// }
+router.get("/:county/subcounties", async (req, res) => {
+  const county = await pool.query("SELECT * FROM counties WHERE county_search_string=$1", [
+    req.params.county.toUpperCase(),
+  ])
 
-// router.get("/:county", (req, res) => {
-//   const response = counties[getSearchString(req.params.county)] || {
-//     error: "County not found",
-//   }
+  if (county.rows.length > 0) {
+    const results = await pool.query("SELECT * FROM subcounties WHERE county_code = $1", [
+      county.rows[0].county_code,
+    ])
 
-//   res.status(200).json(response)
-// })
+    return res.status(200).json(results.rows)
+  }
 
-// router.get("/:county/subcounties", (req, res) => {
-//   const data = subCounties[getSearchString(req.params.county)]
+  return res.status(404).json({})
+})
 
-//   const response = data || { error: "County not found" }
+router.get("/:county/subcounties/:subcounty", async (req, res) => {
+  const results = await pool.query("SELECT * FROM subcounties WHERE subcounty_search_string = $1", [
+    req.params.subcounty.toUpperCase(),
+  ])
 
-//   res.status(200).json(response)
-// })
+  res.status(200).json(results.rows[0])
+})
 
-// router.get("/:county/subcounties/:subcounty", (req, res) => {
-//   const data = subCounties[getSearchString(req.params.county)]
-//   const result = data[getSearchString(req.params.subcounty)]
-
-//   const response = result || { error: "Sub County not found" }
-
-//   res.status(200).json(response)
-// })
-
-// export default router
+export default router

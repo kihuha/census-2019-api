@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "build:types": "tsc --declaration",
-    "dev": "nodemon public/index.js",
+    "dev": "env-cmd nodemon src/index.ts",
     "start": "node public/index.js",
     "test": "jest",
     "format": "prettier --write src/**/*",
@@ -40,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.17.0",
     "csv-parser": "^3.0.0",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.22.0",
     "husky": "=4",
     "lint-staged": ">=10",
@@ -60,5 +61,9 @@
       "prettier --write src/**/*",
       "eslint --fix"
     ]
+  },
+  "prettier": {
+    "semi": false,
+    "printWidth": 100
   }
 }

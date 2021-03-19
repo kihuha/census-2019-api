@@ -97,9 +97,7 @@ describe("Subcounties", () => {
       },
     }
 
-    const res = await request(app)
-      .get("/api/v1/counties/kiambu/subcounties")
-      .expect(200)
+    const res = await request(app).get("/api/v1/counties/kiambu/subcounties").expect(200)
 
     expect(res.body).toMatchObject(kiambuSubCounties)
   })
@@ -113,9 +111,7 @@ describe("Subcounties", () => {
       popDensity: { landArea: 91, density: 2689 },
     }
 
-    const res = await request(app)
-      .get("/api/v1/counties/kiambu/subcounties/thika-west")
-      .expect(200)
+    const res = await request(app).get("/api/v1/counties/kiambu/subcounties/thika-west").expect(200)
 
     expect(res.body).toMatchObject(thikaWest)
   })

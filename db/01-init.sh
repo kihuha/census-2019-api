@@ -8,9 +8,9 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
   \connect $APP_DB_NAME $APP_DB_USER
   BEGIN;
    CREATE TABLE counties (
-        id SERIAL PRIMARY KEY,
+        county_code INT PRIMARY KEY,
+        county_search_string TEXT NOT NULL,
         county_name TEXT UNIQUE NOT NULL,
-        county_code TEXT UNIQUE,
         total INT NOT NULL,
         male INT NOT NULL,
         female INT NOT NULL,
@@ -38,6 +38,24 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
         group_quaters_urban INT NOT NULL,
         land_area_sq_km_urban FLOAT NOT NULL,
         persons_per_sq_km_urban FLOAT NOT NULL
+    );
+  COMMIT;
+
+  BEGIN;
+    CREATE TABLE subcounties (
+      county_code INT NOT NULL,
+      subcounty_code INT PRIMARY KEY,
+      subcounty_search_string TEXT NOT NULL,
+      subcounty TEXT NOT NULL,
+      total INT NOT NULL,
+      male INT NOT NULL,
+      female INT NOT NULL,
+      total_households INT NOT NULL,
+      conventional_households INT NOT NULL,
+      group_quaters INT NOT NULL,
+      land_area_sq_km INT NOT NULL,
+      persons_per_sq_km INT NOT NULL,
+      CONSTRAINT county_codecounties FOREIGN KEY (county_code) REFERENCES counties(county_code)
     );
   COMMIT;
 

@@ -9,9 +9,11 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=password
-      - APP_DB_USER=docker
-      - APP_DB_PASS=docker
-      - APP_DB_NAME=census
+      - APP_DB_USER=${APP_DB_USER}
+      - APP_DB_PASS=${APP_DB_PASSWORD}
+      - APP_DB_NAME=${APP_DB_NAME}
+    env_file:
+      - .env
   server:
     restart: always
     build:
