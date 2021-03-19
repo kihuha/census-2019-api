@@ -1,10 +1,10 @@
-import express from "express"
-import { country } from "../data"
+// import express from "express"
+// import { country } from "../data"
 
-const router = express.Router()
+// const router = express.Router()
 
-router.get("/", (req, res) => {
-  res.send(country)
-})
+// router.get("/", (req, res) => {
+//   res.send(country)
+// })
 
-export default router
+// export default router
