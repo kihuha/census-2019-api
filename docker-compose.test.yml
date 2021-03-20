@@ -20,8 +20,6 @@ services:
       - .:/usr/app/
     depends_on:
       - db
-    env_file:
-      - .env.test
     environment:
       - PGHOST=db
     command: ["yarn", "test"]
