@@ -1,0 +1,27 @@
+version: "3"
+services:
+  db:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d/"
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - APP_DB_USER=test
+      - APP_DB_PASS=test
+      - APP_DB_NAME=censustest
+  server:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - .:/usr/app/
+    depends_on:
+      - db
+    env_file:
+      - .env.test
+    environment:
+      - PGHOST=db
+    command: ["yarn", "test"]
