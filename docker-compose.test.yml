@@ -15,11 +15,8 @@ services:
   server:
     build:
       context: .
-      dockerfile: dockerfile.dev
-    volumes:
-      - .:/usr/app/
+      dockerfile: dockerfile.test
     depends_on:
       - db
     environment:
       - PGHOST=db
-    command: ["yarn", "test"]
