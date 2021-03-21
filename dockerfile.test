@@ -11,6 +11,6 @@ RUN yarn
 
 COPY ./ ./
 
-RUN "yarn", "dev"
+RUN yarn dev
 
 CMD [ "bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info" ]
