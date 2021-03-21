@@ -2,8 +2,13 @@ FROM node:alpine
 
 WORKDIR /usr/app
 
+ARG NODE_ENV=test
+ENV NODE_ENV ${NODE_ENV}
+
 COPY ./package.json ./
 
 RUN yarn
 
-CMD ["yarn", "test", "--coverage"]
+COPY ./ ./
+
+CMD ["yarn", "dev"]
