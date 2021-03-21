@@ -10,7 +10,4 @@ before_install:
   - docker pull postgres
 
 script:
-  - docker-compose -f docker-compose.test.yml up
-
-after_success:
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
+  - docker-compose -f docker-compose.test.yml up --exit-code-from sut
