@@ -1,0 +1,207 @@
+FORMAT: 1A
+HOST: https://polls.apiblueprint.org/
+
+
+
+# Kenya-Population API
+
+This api provides population data from the [2019 Kenya Population Census](https://www.knbs.or.ke/?wpdmpro=2019-kenya-population-and-housing-census-volume-i-population-by-county-and-sub-county)
+
+## Country Data [/api/v1/country]
+
+### Get all country data [GET] 
+
++ Response 200 (application/json)
+
+        {
+            "total": 47564296,
+            "male": 23548056,
+            "female": 24014716,
+            "intersex": 1524,
+            "total_households": 12143913,
+            "conventional_households": 12043016,
+            "group_quaters": 100897,
+            "land_area_sq_km": 580895,
+            "persons_per_sq_km": 82,
+            "total_rural": 32732596,
+            "male_rural": 16195922,
+            "female_rural": 16535833,
+            "intersex_rural": 841,
+            "total_households_rural": 7432249,
+            "conventional_households_rural": 7379282,
+            "group_quaters_rural": 52967,
+            "land_area_sq_km_rural": 573370,
+            "persons_per_sq_km_rural": 57,
+            "total_urban": 14831700,
+            "male_urban": 7352134,
+            "female_urban": 7478883,
+            "intersex_urban": 683,
+            "total_households_urban": 4711664,
+            "conventional_households_urban": 4663734,
+            "group_quaters_urban": 47930,
+            "land_area_sq_km_urban": 7526,
+            "persons_per_sq_km_urban": 1971
+        }
+
+
+## Counties Data [/api/v1/counties/]
+Add the county name at the end of the endpoint. For county names that are composed of more than one
+name, separate the name with a dash. For example
+
+- Taita/Taveta should be passed as taita-taveta
+- Uasing Gishu should be passed as uasin-gishu
+
+### Get all country data [GET] 
+
++ Response 200 (application/json)
+
+        [
+            {
+                "county_code": 1,
+                "county_search_string": "MOMBASA",
+                "county_name": "MOMBASA",
+                "total": 1208333,
+                "male": 610257,
+                "female": 598046,
+                "intersex": 30,
+                "total_households": 378422,
+                "conventional_households": 376295,
+                "group_quaters": 2127,
+                "land_area_sq_km": 220,
+                "persons_per_sq_km": 5495,
+                "total_rural": 0,
+                "male_rural": 0,
+                "female_rural": 0,
+                "intersex_rural": 0,
+                "total_households_rural": 0,
+                "conventional_households_rural": 0,
+                "group_quaters_rural": 0,
+                "land_area_sq_km_rural": 0,
+                "persons_per_sq_km_rural": 0,
+                "total_urban": 1208333,
+                "male_urban": 610257,
+                "female_urban": 598046,
+                "intersex_urban": 30,
+                "total_households_urban": 378422,
+                "conventional_households_urban": 376295,
+                "group_quaters_urban": 2127,
+                "land_area_sq_km_urban": 220,
+                "persons_per_sq_km_urban": 5495
+            },
+            ...
+        ]
+
+## Specific Counties Data [/api/v1/counties/:county]
+
+### Get specific country data [GET] 
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /counties/MOMBASA
+    
+    + Body
+
+            {
+                "county_code": 1,
+                "county_search_string": "MOMBASA",
+                "county_name": "MOMBASA",
+                "total": 1208333,
+                "male": 610257,
+                "female": 598046,
+                "intersex": 30,
+                "total_households": 378422,
+                "conventional_households": 376295,
+                "group_quaters": 2127,
+                "land_area_sq_km": 220,
+                "persons_per_sq_km": 5495,
+                "total_rural": 0,
+                "male_rural": 0,
+                "female_rural": 0,
+                "intersex_rural": 0,
+                "total_households_rural": 0,
+                "conventional_households_rural": 0,
+                "group_quaters_rural": 0,
+                "land_area_sq_km_rural": 0,
+                "persons_per_sq_km_rural": 0,
+                "total_urban": 1208333,
+                "male_urban": 610257,
+                "female_urban": 598046,
+                "intersex_urban": 30,
+                "total_households_urban": 378422,
+                "conventional_households_urban": 376295,
+                "group_quaters_urban": 2127,
+                "land_area_sq_km_urban": 220,
+                "persons_per_sq_km_urban": 5495
+            }
+
+## Subcounties Data [/api/v1/counties/:county/subcounties/]
+
+### Get country data [GET] 
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /counties/MOMBASA
+    
+    + Body
+
+            [
+                {
+                    "county_code": 47,
+                    "subcounty_code": 4701,
+                    "subcounty_search_string": "DAGORETTI",
+                    "subcounty": "DAGORETTI",
+                    "total": 434208,
+                    "male": 217651,
+                    "female": 216526,
+                    "total_households": 155089,
+                    "conventional_households": 154949,
+                    "group_quaters": 140,
+                    "land_area_sq_km": 29,
+                    "persons_per_sq_km": 14908
+                },
+                ...
+            ]
+
+## Specific Subcounties Data [/api/v1/counties/:county/subcounties/:subcounties]
+Add the specific county name at the end of the endpoint. 
+
+For county names that are composed of more than one
+name, separate the name with a dash. For example
+
+- Taita/Taveta should be passed as taita-taveta
+- Uasing Gishu should be passed as uasin-gishu
+
+For subcounty names that are composed of more than one
+name, separate the name with a dash as well.
+
+### Get specific country data [GET] 
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Location: /counties/NAIROBI/subcounties/DAGORETTI
+    
+    + Body
+
+            [
+                {
+                    "county_code": 47,
+                    "subcounty_code": 4701,
+                    "subcounty_search_string": "DAGORETTI",
+                    "subcounty": "DAGORETTI",
+                    "total": 434208,
+                    "male": 217651,
+                    "female": 216526,
+                    "total_households": 155089,
+                    "conventional_households": 154949,
+                    "group_quaters": 140,
+                    "land_area_sq_km": 29,
+                    "persons_per_sq_km": 14908
+                },
+                ...
+            ]
