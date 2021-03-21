@@ -13,4 +13,4 @@ script:
   - docker-compose -f docker-compose.test.yml up --exit-code-from sut
 
 after_success:
-  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/lcov.info
+  - bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r $PWD/coverage/lcov.info
