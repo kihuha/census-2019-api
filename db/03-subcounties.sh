@@ -2,7 +2,7 @@
 set -e
 export PGPASSWORD=$POSTGRES_PASSWORD;
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
-  \connect $APP_DB_NAME $APP_DB_USER
+  \connect $APP_DB_NAME $POSTGRES_USER
   BEGIN;
   INSERT INTO subcounties (county_code, subcounty_code, subcounty_search_string, subcounty, total, male, female,
                          total_households, conventional_households, group_quaters, land_area_sq_km, persons_per_sq_km)
