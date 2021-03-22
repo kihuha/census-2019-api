@@ -1,46 +1,85 @@
 import express from "express"
-import { pool } from "../dbconn"
-// import { counties, subCounties } from "../data"
+import { counties, subcounties } from "../data"
+import { Map } from "immutable"
 
 const router = express.Router()
 
 router.get("/", async (req, res) => {
-  const results: any = await pool.query(
-    "SELECT * FROM counties ORDER BY CAST(county_code AS int) ASC;"
-  )
+  try {
+    const allCounties = counties
+      .toArray()
+      .map((item: Map<string, string | number>) => item.toObject())
 
-  return res.status(200).send(results.rows)
+    console.log(typeof counties.toArray())
+
+    return res.status(200).send(allCounties)
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      status: "Server Error",
+    })
+  }
 })
 
 router.get("/:county", async (req, res) => {
-  const results = await pool.query("SELECT * FROM counties WHERE county_search_string=$1;", [
-    req.params.county.toUpperCase(),
-  ])
-  return res.status(200).json(results.rows[0])
+  try {
+    const selectedCounty = counties.find((obj: Map<string, string>) => {
+      return obj.get("county_search_string")?.toUpperCase() === req.params.county.toUpperCase()
+    })
+
+    if (selectedCounty) {
+      return res.status(200).send(selectedCounty.toObject())
+    } else {
+      return res.status(404).send({
+        message: "County not found",
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      status: "Server Error",
+    })
+  }
 })
 
 router.get("/:county/subcounties", async (req, res) => {
-  const county = await pool.query("SELECT * FROM counties WHERE county_search_string=$1", [
-    req.params.county.toUpperCase(),
-  ])
+  try {
+    const allSubCounties = subcounties
+      .filter(
+        (obj: Map<string, string>) =>
+          obj.get("county")?.toUpperCase() === req.params.county.toUpperCase()
+      )
+      .map((item: Map<string, string | number>) => item.toObject())
 
-  if (county.rows.length > 0) {
-    const results = await pool.query("SELECT * FROM subcounties WHERE county_code = $1", [
-      county.rows[0].county_code,
-    ])
-
-    return res.status(200).json(results.rows)
+    if (allSubCounties) {
+      return res.status(200).send(allSubCounties.toArray())
+    } else {
+      return res.status(404).json({})
+    }
+  } catch (e) {
+    return res.status(500).send({
+      status: "Server Error",
+    })
   }
-
-  return res.status(404).json({})
 })
 
 router.get("/:county/subcounties/:subcounty", async (req, res) => {
-  const results = await pool.query("SELECT * FROM subcounties WHERE subcounty_search_string = $1", [
-    req.params.subcounty.toUpperCase(),
-  ])
+  try {
+    const selectedSubCounty = subcounties.find(
+      (obj: Map<string, string>) =>
+        obj.get("subcounty_search_string")?.toUpperCase() === req.params.subcounty.toUpperCase()
+    )
 
-  res.status(200).json(results.rows[0])
+    if (selectedSubCounty) {
+      return res.status(200).send(selectedSubCounty.toObject())
+    } else {
+      return res.status(404).json({})
+    }
+  } catch (e) {
+    return res.status(500).send({
+      status: "Server Error",
+    })
+  }
 })
 
 export default router

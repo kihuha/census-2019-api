@@ -23,8 +23,6 @@ services:
       - "3000:3000"
     volumes:
       - .:/usr/app/
-    environment:
-      - POSTGRES_USER=${APP_DB_USER}
-      - POSTGRES_PASSWORD=${APP_DB_PASSWORD}
     depends_on:
       - db
+    command: yarn dev
