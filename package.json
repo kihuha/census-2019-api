@@ -7,7 +7,7 @@
     "build": "tsc",
     "build:types": "tsc --declaration",
     "dev": "env-cmd nodemon src/index.ts",
-    "start": "node public/index.js",
+    "start": "ts-node --transpile-only src/index.ts",
     "test": "jest",
     "format": "prettier --write src/**/*",
     "lint": "eslint --fix-dry-run src/**/*"
