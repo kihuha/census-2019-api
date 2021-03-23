@@ -10,9 +10,8 @@ before_install:
   - docker pull postgres
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
-jobs:
-  include:
-    - stage: test
-    - script: docker-compose -f docker-compose.test.yml up --exit-code-from sut
-    - stage: deploy
-    - script: bash ./deploy.sh
+script:
+  - docker-compose -f docker-compose.test.yml up --exit-code-from sut
+
+deploy:
+  - bash ./deploy.sh

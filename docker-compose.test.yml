@@ -1,25 +1,9 @@
 version: "3"
 services:
-  db:
-    image: "postgres"
-    ports:
-      - "5432:5432"
-    volumes:
-      - "./db:/docker-entrypoint-initdb.d/"
-    environment:
-      - POSTGRES_USER=${APP_DB_USER}
-      - POSTGRES_PASSWORD=${APP_DB_PASSWORD}
-      - APP_DB_NAME=${APP_DB_NAME}
   sut:
     build:
       context: .
-      dockerfile: dockerfile.test
-    depends_on:
-      - db
+      dockerfile: dockerfile
     environment:
-      - POSTGRES_USER=${APP_DB_USER}
-      - POSTGRES_PASSWORD=${APP_DB_PASSWORD}
-      - APP_DB_NAME=${APP_DB_NAME}
-      - APP_DB_USER=${APP_DB_USER}
-      - APP_DB_PASSWORD=${APP_DB_PASSWORD}
+      - NODE_ENV=test
     command: yarn test --coverage
