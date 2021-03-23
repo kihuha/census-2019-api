@@ -4,7 +4,7 @@ import counties from "./routers/counties"
 
 const app = express()
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
   return res.json({ test: "Server is running" })
 })
 

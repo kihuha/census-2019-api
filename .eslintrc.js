@@ -11,5 +11,5 @@ module.exports = {
   },
   plugins: ["@typescript-eslint"],
   rules: {},
-  ignorePatterns: ["dockerfile"],
+  ignorePatterns: ["dockerfile", "*.csv", "*.sh", "*.sql", "*.json"],
 }

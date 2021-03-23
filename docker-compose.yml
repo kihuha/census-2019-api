@@ -1,0 +1,12 @@
+version: "3"
+services:
+  server:
+    restart: always
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/usr/app/
+    command: yarn dev

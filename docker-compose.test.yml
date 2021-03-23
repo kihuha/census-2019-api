@@ -1,0 +1,9 @@
+version: "3"
+services:
+  sut:
+    build:
+      context: .
+      dockerfile: dockerfile
+    environment:
+      - NODE_ENV=test
+    command: yarn test --coverage

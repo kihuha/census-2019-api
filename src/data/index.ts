@@ -1,5 +1,8 @@
-import { counties } from "./countyData"
-import { subCounties } from "./subcountyData"
-import { country } from "./country"
+import { fromJS } from "immutable"
+import { counties } from "./counties"
+import { subcounties } from "./subcounties"
 
-export { counties, subCounties, country }
+const immutableCounties = fromJS(counties)
+const immutableSubcounties = fromJS(subcounties)
+
+export { immutableCounties as counties, immutableSubcounties as subcounties }

@@ -1,58 +1,85 @@
 import express from "express"
-import { counties, subCounties } from "../data"
+import { counties, subcounties } from "../data"
+import { Map } from "immutable"
 
 const router = express.Router()
 
-router.get("/", (req, res) => {
-  res.status(200).json(counties)
-})
+router.get("/", async (req, res) => {
+  try {
+    const allCounties = counties
+      .toArray()
+      .map((item: Map<string, string | number>) => item.toObject())
 
-/**
- * This function takes in either the counties object or
- * the subcounties object and returns a single county or subcounty from
- * the object passed in
- *
- * @param name string
- * @param object Counties or SubCounties object
- * @returns County or Subcounty
- */
-const getSearchString = (name: string) => {
-  const county =
-    name[0].toUpperCase() + name.slice(1, name.length).toLowerCase()
+    console.log(typeof counties.toArray())
 
-  if (county.split("-").length > 1) {
-    const split = county.split("-")
-    const searchString = `${split[0]} ${split[1]}`
-
-    return searchString
-  } else {
-    return county
+    return res.status(200).send(allCounties)
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      status: "Server Error",
+    })
   }
-}
+})
 
-router.get("/:county", (req, res) => {
-  const response = counties[getSearchString(req.params.county)] || {
-    error: "County not found",
+router.get("/:county", async (req, res) => {
+  try {
+    const selectedCounty = counties.find((obj: Map<string, string>) => {
+      return obj.get("county_search_string")?.toUpperCase() === req.params.county.toUpperCase()
+    })
+
+    if (selectedCounty) {
+      return res.status(200).send(selectedCounty.toObject())
+    } else {
+      return res.status(404).send({
+        message: "County not found",
+      })
+    }
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send({
+      status: "Server Error",
+    })
   }
-
-  res.status(200).json(response)
 })
 
-router.get("/:county/subcounties", (req, res) => {
-  const data = subCounties[getSearchString(req.params.county)]
+router.get("/:county/subcounties", async (req, res) => {
+  try {
+    const allSubCounties = subcounties
+      .filter(
+        (obj: Map<string, string>) =>
+          obj.get("county")?.toUpperCase() === req.params.county.toUpperCase()
+      )
+      .map((item: Map<string, string | number>) => item.toObject())
 
-  const response = data || { error: "County not found" }
-
-  res.status(200).json(response)
+    if (allSubCounties) {
+      return res.status(200).send(allSubCounties.toArray())
+    } else {
+      return res.status(404).json({})
+    }
+  } catch (e) {
+    return res.status(500).send({
+      status: "Server Error",
+    })
+  }
 })
 
-router.get("/:county/subcounties/:subcounty", (req, res) => {
-  const data = subCounties[getSearchString(req.params.county)]
-  const result = data[getSearchString(req.params.subcounty)]
+router.get("/:county/subcounties/:subcounty", async (req, res) => {
+  try {
+    const selectedSubCounty = subcounties.find(
+      (obj: Map<string, string>) =>
+        obj.get("subcounty_search_string")?.toUpperCase() === req.params.subcounty.toUpperCase()
+    )
 
-  const response = result || { error: "Sub County not found" }
-
-  res.status(200).json(response)
+    if (selectedSubCounty) {
+      return res.status(200).send(selectedSubCounty.toObject())
+    } else {
+      return res.status(404).json({})
+    }
+  } catch (e) {
+    return res.status(500).send({
+      status: "Server Error",
+    })
+  }
 })
 
 export default router
