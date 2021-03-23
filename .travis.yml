@@ -7,7 +7,6 @@ services:
 
 before_install:
   - docker pull node:alpine
-  - docker pull postgres
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 
 script:
